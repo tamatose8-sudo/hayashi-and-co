@@ -478,7 +478,8 @@
           <!-- The Form -->
           <form id="rfqForm" class="rfq-form" name="rfq-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
             <input type="hidden" name="form-name" value="rfq-request">
-            <p style="display: none;"><label>Don窶冲 fill this out: <input name="bot-field"></label></p>
+            <input type="hidden" id="requestModeInput" name="request_mode" value="Part Number (Option A)">
+            <p style="display: none;"><label>Don’t fill this out: <input name="bot-field"></label></p>
             <!-- Dynamic Tab Content: Panel A -->
             <div id="panelPartNo" class="tab-panel active" role="tabpanel">
               <div class="form-row">
@@ -486,12 +487,12 @@
                   <label for="partNumberInput" class="form-label">
                     OEM Part Number(s) <span class="required">*</span>
                   </label>
-                  <input type="text" id="partNumberInput" class="form-control" placeholder="e.g. 13001-AA000, 23710-AA300, 16100-PZ3-000" required>
+                  <input type="text" id="partNumberInput" name="oem_part_numbers" class="form-control" placeholder="e.g. 13001-AA000, 23710-AA300, 16100-PZ3-000" required>
                   <span class="field-hint">Multiple part numbers can be separated with commas.</span>
                 </div>
                 <div class="form-group flex-1">
                   <label for="partBrandSelect" class="form-label">Vehicle / Platform Category</label>
-                  <select id="partBrandSelect" class="form-control">
+                  <select id="partBrandSelect" name="platform_category" class="form-control">
                     <option value="JDM Sports (Nissan, Toyota, Honda, Mazda)">JDM Sports (Nissan, Toyota, Honda, Mazda)</option>
                     <option value="Kei Truck (Acty, Carry, Hijet, Sambar)">Kei Truck (Acty, Carry, Hijet, Sambar)</option>
                     <option value="Toyota / Lexus (incl. Land Cruiser)">Toyota / Lexus (incl. Land Cruiser)</option>
@@ -525,11 +526,11 @@
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label for="vinInput" class="form-label">Chassis No. / VIN <span class="required">*</span></label>
-                  <input type="text" id="vinInput" class="form-control" placeholder="e.g. HA4-1234567, BNR34-005123, or 17-digit VIN">
+                  <input type="text" id="vinInput" name="chassis_or_vin" class="form-control" placeholder="e.g. HA4-1234567, BNR34-005123, or 17-digit VIN">
                 </div>
                 <div class="form-group flex-1">
                   <label for="carModelInput" class="form-label">Vehicle Model & Year <span class="required">*</span></label>
-                  <input type="text" id="carModelInput" class="form-control" placeholder="e.g. 1994 Honda Acty Attack 4WD or 1999 Skyline GT-R">
+                  <input type="text" id="carModelInput" name="vehicle_model_year" class="form-control" placeholder="e.g. 1994 Honda Acty Attack 4WD or 1999 Skyline GT-R">
                 </div>
               </div>
 
@@ -537,15 +538,15 @@
                 <label for="partDescriptionInput" class="form-label">
                   Description of Part / Location on Vehicle <span class="required">*</span>
                 </label>
-                <textarea id="partDescriptionInput" class="form-control" rows="2" placeholder="e.g. Front axle hub seal, complete carburetor, or rear spoiler clip."></textarea>
+                <textarea id="partDescriptionInput" name="part_description" class="form-control" rows="2" placeholder="e.g. Front axle hub seal, complete carburetor, or rear spoiler clip."></textarea>
               </div>
 
               <div class="form-group file-group">
-                <label class="form-label">Upload Reference Photos of Broken/Required Part (Optional, 1窶・0 images)</label>
+                <label class="form-label">Upload Reference Photos of Broken/Required Part (Optional, 1–10 images)</label>
                 <div class="file-drop-zone" id="fileDropZone">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                   <div class="file-drop-text">
-                    <span class="file-browse-link">Click to upload photos</span> or drag & drop here (1窶・0 files, up to 15MB total)
+                    <span class="file-browse-link">Click to upload photos</span> or drag & drop here (1–10 files, up to 15MB total)
                   </div>
                   <input type="file" id="photoUploadInput" name="photos" class="file-input" accept="image/*,.pdf" multiple capture="environment">
                 </div>
@@ -562,21 +563,21 @@
                 <label class="form-label">Condition Preference <span class="required">*</span></label>
                 <div class="radio-card-group">
                   <label class="radio-card">
-                    <input type="radio" name="conditionPref" value="New OEM" checked>
+                    <input type="radio" name="condition_preference" value="Brand New OEM" checked>
                     <span class="radio-card-content">
                       <strong>Brand New OEM</strong>
                       <small>Factory sealed, 100% genuine</small>
                     </span>
                   </label>
                   <label class="radio-card">
-                    <input type="radio" name="conditionPref" value="Certified Used">
+                    <input type="radio" name="condition_preference" value="Certified Used">
                     <span class="radio-card-content">
                       <strong>Certified Used</strong>
                       <small>Inspected with actual photos</small>
                     </span>
                   </label>
                   <label class="radio-card">
-                    <input type="radio" name="conditionPref" value="Quote Both (Best Value)">
+                    <input type="radio" name="condition_preference" value="Quote Both (Best Value)">
                     <span class="radio-card-content">
                       <strong>Quote Both</strong>
                       <small>Compare price & lead time</small>
@@ -589,7 +590,7 @@
             <!-- Heavy Freight Checkbox Warning Alert (Integrated) -->
             <div class="oversized-checkbox-wrapper">
               <label class="checkbox-container">
-                <input type="checkbox" id="oversizedItemCheck">
+                <input type="checkbox" id="oversizedItemCheck" name="oversized_heavy_freight" value="Yes - Heavy / Oversized Assembly">
                 <span class="checkbox-checkmark"></span>
                 <span class="checkbox-label-text">
                   <strong>This request includes Heavy / Oversized Items</strong> (Complete Engine, Transmission, Long Block, Bumper Assembly, Shell components)
@@ -614,11 +615,11 @@
             <div class="form-row">
               <div class="form-group flex-1">
                 <label for="companyNameInput" class="form-label">Company / Workshop Name <span class="required">*</span></label>
-                <input type="text" id="companyNameInput" class="form-control" placeholder="e.g. Apex Performance Tuning Ltd." required>
+                <input type="text" id="companyNameInput" name="company_name" class="form-control" placeholder="e.g. Apex Performance Tuning Ltd." required>
               </div>
               <div class="form-group flex-1">
                 <label for="contactEmailInput" class="form-label">Business Email Address <span class="required">*</span></label>
-                <input type="email" id="contactEmailInput" class="form-control" placeholder="e.g. purchasing@apexperformance.com" required>
+                <input type="email" id="contactEmailInput" name="contact_email" class="form-control" placeholder="e.g. purchasing@apexperformance.com" required>
                 <span class="field-hint">We will send your quote & photos to this address.</span>
               </div>
             </div>
@@ -626,7 +627,7 @@
             <div class="form-row">
               <div class="form-group flex-1">
                 <label for="destinationCountry" class="form-label">Destination Country <span class="required">*</span></label>
-                <select id="destinationCountry" class="form-control" required>
+                <select id="destinationCountry" name="destination_country" class="form-control" required>
                   <option value="" disabled selected>Select Destination Country...</option>
                   <option value="United States">United States</option>
                   <option value="United Kingdom">United Kingdom</option>
@@ -646,13 +647,13 @@
               </div>
               <div class="form-group flex-1">
                 <label for="destinationZip" class="form-label">Postal / ZIP Code (For Accurate Freight Calc)</label>
-                <input type="text" id="destinationZip" class="form-control" placeholder="e.g. 90210 / SW1A 1AA">
+                <input type="text" id="destinationZip" name="postal_zip_code" class="form-control" placeholder="e.g. 90210 / SW1A 1AA">
               </div>
             </div>
 
             <div class="form-group">
               <label for="additionalNotesInput" class="form-label">Special Requirements / Notes (Optional)</label>
-              <textarea id="additionalNotesInput" class="form-control" rows="2" placeholder="e.g., Urgency level, specific brand preference, or delivery requirements."></textarea>
+              <textarea id="additionalNotesInput" name="additional_notes" class="form-control" rows="2" placeholder="e.g., Urgency level, specific brand preference, or delivery requirements."></textarea>
             </div>
 
             <!-- Live Quote Summary Preview Bar -->

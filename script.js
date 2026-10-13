@@ -30,11 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const vinInput = document.getElementById('vinInput');
   const carModelInput = document.getElementById('carModelInput');
 
+  const requestModeInput = document.getElementById('requestModeInput');
+
   let activeMode = 'partNo'; // 'partNo' | 'lookup'
 
   function switchTab(mode) {
     activeMode = mode;
     if (mode === 'partNo') {
+      if (requestModeInput) requestModeInput.value = 'Known Part Number (Option A)';
       tabPartNo.classList.add('active');
       tabPartNo.setAttribute('aria-selected', 'true');
       tabLookup.classList.remove('active');
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       vinInput.removeAttribute('required');
       carModelInput.removeAttribute('required');
     } else {
+      if (requestModeInput) requestModeInput.value = 'Lookup / Unknown Part Number (Option B)';
       tabLookup.classList.add('active');
       tabLookup.setAttribute('aria-selected', 'true');
       tabPartNo.classList.remove('active');
@@ -182,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const partBrandSelect = document.getElementById('partBrandSelect');
 
   function getConditionPref() {
-    const radio = document.querySelector('input[name="conditionPref"]:checked');
-    return radio ? radio.value : 'New OEM';
+    const radio = document.querySelector('input[name="condition_preference"]:checked');
+    return radio ? radio.value : 'Brand New OEM';
   }
 
   function updateLiveSummary() {
@@ -225,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el) el.addEventListener('input', updateLiveSummary);
   });
 
-  document.querySelectorAll('input[name="conditionPref"]').forEach(radio => {
+  document.querySelectorAll('input[name="condition_preference"]').forEach(radio => {
     radio.addEventListener('change', updateLiveSummary);
   });
 
@@ -287,6 +291,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attempt Netlify Forms POST
     try {
       const formData = new FormData(rfqForm);
+      // Ensure drag-and-dropped photos are attached to formData
+      if (selectedFiles.length > 0) {
+        formData.delete('photos');
+        selectedFiles.forEach((file) => {
+          formData.append('photos', file, file.name);
+        });
+      }
       await fetch("/", {
         method: "POST",
         body: formData
