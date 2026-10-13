@@ -1,0 +1,8 @@
+# Local Netlify folder
+.netlify
+
+# Unrelated scratch / AI files
+english_learning_ai.py
+english-learning-ai/
+netlify logi.txt
+.agents/
